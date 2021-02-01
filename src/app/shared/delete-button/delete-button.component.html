@@ -1,0 +1,12 @@
+<!-- button iteself may either run prepareForDelete() or deleteBoard() method if user already confirmed it -->
+<button
+  mat-button
+  color="warn"
+  (click)="canDelete ? deleteBoard() : prepareForDelete()"
+>
+  <mat-icon>delete</mat-icon>
+  <span *ngIf="canDelete">Confirm</span>
+</button>
+
+<!-- cancel button just reset state of the button without emitting the event -->
+<button *ngIf="canDelete" mat-button (click)="cancel()">Cancel</button>

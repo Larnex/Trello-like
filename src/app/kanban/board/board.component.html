@@ -1,0 +1,39 @@
+<mat-card class="outer-card">
+  <mat-card-header>
+    <!-- slot for the handle -->
+    <!-- ng-content for passing drag handle into child component, it allows drag the board from within the board component itself  -->
+    <ng-content></ng-content>
+    <!-- show title and document id for the board -->
+    <mat-card-title>
+      {{ board.title }}
+    </mat-card-title>
+    <mat-card-subtitle>
+      {{ board.id }}
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <div
+    class="tasks"
+    cdkDropList
+    cdkDropListOrientation="vertical"
+    (cdkDropListDropped)="taskDrop($event)"
+  >
+    <!-- openDialog method on click on a task -->
+    <div
+      class="inner-card"
+      cdkDrag
+      *ngFor="let task of board.tasks; let i = index"
+      (click)="openDialog(task, i)"
+    >
+      <!-- each task will be represents also as a material card -->
+      <!-- [ngClass] to make label value as a bg color of a task -->
+      <mat-card [ngClass]="task.label!">{{ task.description }}</mat-card>
+    </div>
+
+    <button mat-stroked-button (click)="openDialog()">
+      <mat-icon>add</mat-icon>
+    </button>
+
+    <app-delete-button (delete)="handleDelete()"></app-delete-button>
+  </div>
+</mat-card>

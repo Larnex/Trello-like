@@ -1,0 +1,95 @@
+<!-- mat-sidenav-container holds all the content for the navigation -->
+<mat-sidenav-container class="sidenav-container">
+  <!-- !SIDENAV -->
+  <!-- #drawer - is a template variable, with this variable you can control state of tag -->
+
+  <!-- role attribute doesn't have impact on visual apperance -->
+  <!-- mode attribute changin sidenav behavior
+    [mode]="over" floats over the primary content
+    [mode]="side" appears shrinking the primary content width
+  -->
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="false"
+  >
+    <!-- mat-toolbar - container for headers, titles and actions -->
+    <mat-toolbar>Menu</mat-toolbar>
+
+    <!-- mat-nav-list list for navigation list -->
+    <!-- drawer.close() close mat-sidenav cause it has template variable #drawer -->
+    <mat-nav-list>
+      <a mat-list-item routerLink="/" (click)="drawer.close()">Home</a>
+      <a mat-list-item routerLink="/login" (click)="drawer.close()">Login</a>
+      <a mat-list-item routerLink="/kanban" (click)="drawer.close()"
+        >Kanban Demo</a
+      >
+      <a mat-list-item routerLink="/customers" (click)="drawer.close()"
+        >SSR Demo</a
+      >
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- sidenav component shouldn't change when user navigate to another route but content inside this sidenav component will change -->
+
+  <mat-sidenav-content>
+    <!-- main toolbar on the top of the screen to toggle the sidenav-->
+    <mat-toolbar>
+      <!-- button to toggle sidenav -->
+      <!-- *ngIf directive to show only if isHandset is true -->
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
+        <!-- add hamburger icon -->
+        <!-- icon image depends on content within a tag, so "menu" inside a mat-icon tag means hamburger icon. check API for more icon names -->
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+
+      <!-- logo -->
+      <span class="logo" routerLink="/">🔥 Angular Firestarter</span>
+
+      <span class="fill-space"></span>
+      <!-- show ONLY on larger devices -->
+      <!-- div contains main links and toolbar -->
+      <div *ngIf="!(isHandset$ | async)">
+        <!-- list of navbar for larget devices -->
+        <a mat-button routerLink="/login">Login</a>
+        <a mat-button routerLink="/kanban">Kanban Demo</a>
+        <a mat-button routerLink="/customers">SSR Demo</a>
+      </div>
+
+      <!-- Addition dropdown menu to toolbar -->
+      <!-- matMenuTriggerFor with "menu" property calls mat-menu a little bit below which has template variable #menu assign to "matMenu" -->
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <!-- 3 dots icon -->
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu">
+        <a mat-menu-item href="https://github.com/larnex">
+          <i></i>
+          <span>github</span>
+        </a>
+        <a
+          mat-menu-item
+          href="https://www.linkedin.com/in/bohdan-asauliuk-653994147/"
+        >
+          <i></i>
+          <span>linkedin</span>
+        </a>
+      </mat-menu>
+    </mat-toolbar>
+
+    <!-- pass sidenav content to component using TRANSCLUSION(ng-content) tag to let content change when user will change route -->
+
+    <!-- Anything inside <app-shell> (which is ShellComponent selector) tag will be transcluded to ng-content, because ng-content doesn't have select attribute -->
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

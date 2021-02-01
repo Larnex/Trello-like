@@ -1,0 +1,126 @@
+<!-- mat-stroked-button without background but with little border, mat-button -> without bg and borders, mat-raised-button with bg -->
+<!-- mat-card is a content container for text, photos, and actions in the context of a single subject -->
+<mat-card>
+  <!-- add buttons to the top to allow a user switch between the different form types -->
+
+  <!-- show is user want to register -->
+  <div *ngIf="isSignup">
+    <h3>Create Account</h3>
+
+    <!-- click if user's already registered and doesn't need to sign up -->
+    <button mat-stroked-button (click)="changeType('login')">
+      Returning User?
+    </button>
+  </div>
+
+  <!-- show if user want to log in -->
+  <div *ngIf="isLogin">
+    <h3>Sign In</h3>
+
+    <!-- click if user doesn't have an account and want to register -->
+    <button size="small" mat-stroked-button (click)="changeType('signup')">
+      New User?
+    </button>
+  </div>
+
+  <!-- show if user's reseting the password -->
+  <div *ngIf="isPasswordReset">
+    <h3>Reset Password</h3>
+
+    <!-- back to login form -->
+    <button size="small" mat-button (click)="changeType('login')">Back</button>
+  </div>
+
+  <!-- [formGroup] is binding this form to FormGroup -->
+  <!-- ngSubmit is binding onSubmit method to form -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- form field for email input-->
+    <!-- if email is valid give the 'accent' color to field -->
+    <mat-form-field [color]="email!.valid && 'accent'">
+      <!-- material input -->
+      <!-- bind to email form control -->
+      <input
+        matInput
+        formControlName="email"
+        placeholder="Email"
+        autocomplete="off"
+      />
+
+      <!-- show error message when email is not valid -->
+      <mat-error *ngIf="email!.invalid && email!.dirty">
+        You must enter a valid email address
+      </mat-error>
+    </mat-form-field>
+
+    <!-- form field for password -->
+    <!-- don't show if user's trying to reset the password -->
+    <mat-form-field
+      [color]="password!.valid && 'accent'"
+      *ngIf="!isPasswordReset"
+    >
+      <input
+        matInput
+        formControlName="password"
+        type="password"
+        placeholder="Password"
+        autocomplete="off"
+      />
+
+      <mat-error *ngIf="password!.invalid && password!.dirty"
+        >Password must be at least 6 characters long</mat-error
+      >
+    </mat-form-field>
+
+    <!-- color depends on if passwords are match  -->
+    <!-- show only if user sign up -->
+    <mat-form-field
+      [color]="passwordIsMatch ? 'accent' : 'warn'"
+      *ngIf="isSignup"
+    >
+      <input
+        matInput
+        formControlName="passwordConfirm"
+        type="password"
+        placeholder="Confirm password"
+        autocomplete="off"
+      />
+
+      <mat-error *ngIf="passwordConfirm!.dirty && !passwordIsMatch">
+        Password does not match
+      </mat-error>
+    </mat-form-field>
+
+    <mat-error class="server-error"> {{ serverMessage }} </mat-error>
+
+    <!-- button for sending reset email to user after completing reset passwords fields -->
+    <button
+      *ngIf="isPasswordReset"
+      mat-stroked-button
+      type="submit"
+      [disabled]="loading"
+    >
+      Send Reset Email
+    </button>
+
+    <!-- disable submit button if form is invalid || password doesn't match || form is loading -->
+    <button
+      *ngIf="!isPasswordReset"
+      mat-raised-button
+      color="accent"
+      type="submit"
+      [disabled]="form.invalid || !passwordIsMatch || loading"
+    >
+      Submit
+    </button>
+  </form>
+
+  <!-- button which redirects to reset password form.
+    Show when user try to login -->
+  <button
+    mat-button
+    *ngIf="isLogin && !isPasswordReset"
+    (click)="changeType('reset')"
+  >
+    Forgot password?
+  </button>
+</mat-card>

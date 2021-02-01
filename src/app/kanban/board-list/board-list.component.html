@@ -1,0 +1,29 @@
+<!-- cdkDropList directive makes a list with multiple drag and drop items in it -->
+<!-- cdkDropListOrientation="horizontal" make item drop only horizontally -->
+<!-- (cdkDropListDropped) emits when the user drops an item inside the container -->
+<div
+  cdkDropList
+  cdkDropListOrientation="horizontal"
+  class="boards"
+  (cdkDropListDropped)="drop($event)"
+>
+  <!-- Inside the cdkDropList need to loop over some items that can be dragged. In this case it's going to be Board Component -->
+  <!-- cdkDrag - Each of these item will have cdkDrag directive which makes items draggable -->
+  <!-- [board]="board" - Pass the board data down to the child component [board]="board" -->
+  <app-board cdkDrag *ngFor="let board of boards" [board]="board">
+    <!-- cdkDragHandle allow drag event only happen in that particular material icon -->
+    <mat-icon cdkDragHandle class="handle">drag_indicator</mat-icon>
+  </app-board>
+
+  <!-- Create board button -->
+  <div class="board-button">
+    <button
+      mat-raised-button
+      color="accent"
+      cdkDragDisabled
+      (click)="openBoardDialog()"
+    >
+      New Board
+    </button>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "trello-like-2759f": {
+      "hosting": {
+        "firestarter-demo": [
+          "trello-like-2759f"
+        ]
+      }
+    }
+  }
+}

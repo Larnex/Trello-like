@@ -1,1 +1,86 @@
+// Import standart font (Asap, 500)
+@import url('https://fonts.googleapis.com/css2?family=Asap:wght@500&display=swap');
+
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+$custom-typography: mat-typography-config(
+  $font-family: 'Asap',
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500)
+);
+
+@include mat-core($custom-typography);
+
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+/* For use in src/lib/core/theming/_palette.scss */
+$custom-orange: (
+    50 : #fff3e0,
+    100 : #ffe0b3,
+    200 : #ffcc80,
+    300 : #ffb74d,
+    400 : #ffa726,
+    500 : #ff9800,
+    600 : #ff9000,
+    700 : #ff8500,
+    800 : #ff7b00,
+    900 : #ff6a00,
+    A100 : #ffffff,
+    A200 : #fff7f2,
+    A400 : #ffd6bf,
+    A700 : #ffc5a6,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+// Define primary palette
+$firestarter-demo-primary: mat-palette($custom-orange);
+$firestarter-demo-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$firestarter-demo-warn: mat-palette($mat-red);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$firestarter-demo-theme: mat-dark-theme((
+  color: (
+    primary: $firestarter-demo-primary,
+    accent: $firestarter-demo-accent,
+    warn: $firestarter-demo-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($firestarter-demo-theme);
+
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%;}
+body { margin: 0; }

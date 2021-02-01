@@ -1,0 +1,27 @@
+<main class="mat-typography">
+  <!-- using ngIf directive for show the button only when user's not logged in -->
+  <div *ngIf="!(afAuth.authState | async)">
+    <h1 class="mat-display-1">Login</h1>
+    <!-- appGoogleSignin is custom directive for showing google sing in popup window when click on button -->
+    <button mat-raised-button appGoogleSignin>
+      <img
+        src="../../../assets/1024px-Google__G__Logo.svg/"
+        class="google-logo"
+      />Login with Google
+    </button>
+
+    <h5>OR</h5>
+
+    <!-- email registration reactive form -->
+    <app-email-login></app-email-login>
+  </div>
+
+  <!-- Show user's details when user's logged in -->
+  <div *ngIf="afAuth.authState | async as user" class="logout">
+    <p>
+      Logged in as <strong>{{ user.email }}</strong>
+    </p>
+    <!-- sign out button -->
+    <button mat-stroked-button (click)="afAuth.signOut()">Logout</button>
+  </div>
+</main>
